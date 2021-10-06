@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { datas } from "../../actions";
 import clsx from "clsx";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import {
   Drawer,
   AppBar,
@@ -14,12 +16,13 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  TextField,
+  InputAdornment,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import DescriptionIcon from "@material-ui/icons/Description";
 import { Add } from "@material-ui/icons";
+import SearchIcon from "@material-ui/icons/Search";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -59,21 +62,29 @@ const useStyles = makeStyles((theme) => ({
   title: {
     cursor: "pointer",
   },
+  search: {
+    margin: "10px",
+  },
 }));
 
 function Sidebar(props) {
   const classes = useStyles();
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  // const theme = useTheme();
+  const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
+  const datasState = useSelector((state) => state.datas);
 
-  const handleClick = (event, index, directory) => {
+  const handleClick = (index, directory) => {
     props.history.push(directory);
-    setSelectedIndex(index);
-  }
+    datas.selectNote(index);
+  };
 
   const handleDrawer = () => {
     setOpen(!open);
+  };
+
+  const handleSearch = (event) => {
+    dispatch(datas.doSearchNotes(event.target.value));
   };
 
   return (
@@ -93,8 +104,8 @@ function Sidebar(props) {
             className={classes.title}
             variant="h4"
             noWrap
-            onClick={(event) => {
-              handleClick(event, 0, "/");
+            onClick={() => {
+              handleClick(null, "/");
             }}
           >
             Note Taking App
@@ -103,32 +114,49 @@ function Sidebar(props) {
       </AppBar>
       <Drawer
         variant="permanent"
-        className={clsx(classes.drawer, {
-          [classes.drawerOpen]: open,
-          [classes.drawerClose]: !open,
-        })}
+        className={classes.drawerOpen}
         classes={{
-          paper: clsx({
-            [classes.drawerOpen]: open,
-            [classes.drawerClose]: !open,
-          }),
+          paper: clsx({ [classes.drawerOpen]: true }),
         }}
+        // variant="permanent"
+        // className={clsx(classes.drawer, {
+        //   [classes.drawerOpen]: open,
+        //   [classes.drawerClose]: !open,
+        // })}
+        // classes={{
+        //   paper: clsx({
+        //     [classes.drawerOpen]: open,
+        //     [classes.drawerClose]: !open,
+        //   }),
+        // }}
       >
-        <div className={classes.toolbar}>
-          <IconButton >
-            {theme.direction === "rtl" ? (
-              <ChevronRightIcon />
-            ) : (
-              <ChevronLeftIcon />
-            )}
-          </IconButton>
-        </div>
+        <div className={classes.toolbar} />
         <Divider />
         <List>
+          <ListItem>
+            <TextField
+              id="outlined-basic"
+              variant="outlined"
+              className={classes.search}
+              label="Search"
+              color="primary"
+              size="small"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              }}
+              onChange={(event) => {
+                handleSearch(event);
+              }}
+            />
+          </ListItem>
           <ListItem
             button
-            selected={selectedIndex === 1}
-            onClick={(event) => handleClick(event, 1, "/add-note")}
+            selected={-1 === datasState.selectedIndex}
+            onClick={() => handleClick(-1, "/add-note")}
           >
             <ListItemIcon>
               <Add />
@@ -137,6 +165,27 @@ function Sidebar(props) {
           </ListItem>
         </List>
         <Divider />
+        <List>
+          {datasState.filteredData.map((item, index) => {
+            return (
+              <ListItem
+                key={index}
+                button
+                selected={index === datasState.selectedIndex}
+                onClick={() => {
+                  handleClick(index, `/note/${item.id}`);
+                }}
+              >
+                <ListItemIcon>
+                  <DescriptionIcon />
+                </ListItemIcon>
+                <Typography className={classes.title} variant="h6" noWrap>
+                  {item.text}
+                </Typography>
+              </ListItem>
+            );
+          })}
+        </List>
       </Drawer>
     </div>
   );
