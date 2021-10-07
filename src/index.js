@@ -7,6 +7,7 @@ import rootReducer from "./reducers";
 import thunk from "redux-thunk";
 import * as serviceWorker from "./serviceWorker";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./index.css"
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 

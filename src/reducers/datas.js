@@ -36,6 +36,17 @@ export default function productReducer(state = initialState, action) {
         filteredData: state.data,
       };
     }
+    case datas.DELETE_NOTE: {
+      let filteredData = state.data.filter(
+        (note) => note.id !== action.payload.note.id
+      );
+      console.log("filteredData",filteredData)
+      return {
+        ...state,
+        data: filteredData,
+        filteredData: filteredData,
+      };
+    }
     case datas.SELECT_NOTE: {
       return {
         ...state,

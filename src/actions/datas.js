@@ -16,6 +16,13 @@ export const editNote = (note) => ({
   payload: { note },
 });
 
+export const DELETE_NOTE = "DELETE_NOTE";
+export const deleteNote = (note) => {
+  return{
+  type: DELETE_NOTE,
+  payload: { note },
+}};
+
 export const SELECT_NOTE = "SELECT_NOTE";
 export const selectNote = (index) => ({
   type: SELECT_NOTE,

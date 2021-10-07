@@ -21,8 +21,9 @@ import {
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import DescriptionIcon from "@material-ui/icons/Description";
-import { Add } from "@material-ui/icons";
+import { Add, Home } from "@material-ui/icons";
 import SearchIcon from "@material-ui/icons/Search";
+// import HomeIcon from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -76,7 +77,7 @@ function Sidebar(props) {
 
   const handleClick = (index, directory) => {
     props.history.push(directory);
-    datas.selectNote(index);
+    dispatch(datas.selectNote(index));
   };
 
   const handleDrawer = () => {
@@ -155,8 +156,18 @@ function Sidebar(props) {
           </ListItem>
           <ListItem
             button
-            selected={-1 === datasState.selectedIndex}
-            onClick={() => handleClick(-1, "/add-note")}
+            selected={-1 === datasState.selectedNote}
+            onClick={() => handleClick(-1, "/")}
+          >
+            <ListItemIcon>
+              <Home />
+            </ListItemIcon>
+            <ListItemText primary="Home" />
+          </ListItem>
+          <ListItem
+            button
+            selected={-2 === datasState.selectedNote}
+            onClick={() => handleClick(-2, "/add-note")}
           >
             <ListItemIcon>
               <Add />
@@ -171,7 +182,7 @@ function Sidebar(props) {
               <ListItem
                 key={index}
                 button
-                selected={index === datasState.selectedIndex}
+                selected={index === datasState.selectedNote}
                 onClick={() => {
                   handleClick(index, `/note/${item.id}`);
                 }}
@@ -180,7 +191,7 @@ function Sidebar(props) {
                   <DescriptionIcon />
                 </ListItemIcon>
                 <Typography className={classes.title} variant="h6" noWrap>
-                  {item.text}
+                  {item.name}
                 </Typography>
               </ListItem>
             );

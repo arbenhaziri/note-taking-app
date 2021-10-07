@@ -1,28 +1,19 @@
 import React from "react";
-// import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import CardView from "../CardView";
 import { withRouter } from "react-router";
-import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    paddingBottom: "2.5%",
-  },
-}));
 
 function Dashboard(props) {
-  const classes = useStyles();
+  const datasState = useSelector((state) => state.datas);
 
   return (
-    <Grid
-      container
-      className={classes.root}
-      spacing={2}
-      justifyContent="center"
-    >
-      Arben Haziri
-    </Grid>
+    <div className="container">
+      <div class="row row-cols-3">
+        {datasState.filteredData.map((item, index) => {
+          return <CardView key={index} data={item} index={index} />;
+        })}
+      </div>
+    </div>
   );
 }
 export default withRouter(Dashboard);
