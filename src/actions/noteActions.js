@@ -39,6 +39,6 @@ export const fetchDataFromLocalStorage = () => {
   }
   return {
     type: FETCH_DATA_LOCAL_STORAGE,
-    payload: localData,
+    payload: [],
   };
 };
