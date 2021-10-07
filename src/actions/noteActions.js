@@ -17,14 +17,28 @@ export const editNote = (note) => ({
 });
 
 export const DELETE_NOTE = "DELETE_NOTE";
-export const deleteNote = (note) => {
-  return{
+export const deleteNote = (note) => ({
   type: DELETE_NOTE,
   payload: { note },
-}};
+});
 
 export const SELECT_NOTE = "SELECT_NOTE";
 export const selectNote = (index) => ({
   type: SELECT_NOTE,
   payload: { index },
 });
+
+export const FETCH_DATA_LOCAL_STORAGE = "FETCH_DATA_LOCAL_STORAGE";
+export const fetchDataFromLocalStorage = () => {
+  const localData = JSON.parse(localStorage.getItem("data"));
+  if (localData) {
+    return {
+      type: FETCH_DATA_LOCAL_STORAGE,
+      payload: localData,
+    };
+  }
+  return {
+    type: FETCH_DATA_LOCAL_STORAGE,
+    payload: localData,
+  };
+};

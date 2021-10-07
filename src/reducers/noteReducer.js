@@ -7,6 +7,11 @@ const initialState = {
   selectedNote: null,
 };
 
+const _updateLocalStorage = (data) => {
+  var notes = JSON.stringify(data);
+  localStorage.setItem("data", notes);
+};
+
 export default function productReducer(state = initialState, action) {
   switch (action.type) {
     case noteActions.SEARCH_NOTES: {
@@ -21,6 +26,7 @@ export default function productReducer(state = initialState, action) {
     }
     case noteActions.ADD_NOTE: {
       state.data.push(action.payload.note);
+      _updateLocalStorage(state.data);
       return {
         ...state,
         filteredData: state.data,
@@ -32,6 +38,7 @@ export default function productReducer(state = initialState, action) {
       );
       updatedNote.text = action.payload.note.text;
       updatedNote.name = action.payload.note.name;
+      _updateLocalStorage(state.data);
       return {
         ...state,
         filteredData: state.data,
@@ -41,6 +48,7 @@ export default function productReducer(state = initialState, action) {
       let filteredData = state.data.filter(
         (note) => note.id !== action.payload.note.id
       );
+      _updateLocalStorage(filteredData);
       return {
         ...state,
         data: filteredData,
@@ -51,6 +59,13 @@ export default function productReducer(state = initialState, action) {
       return {
         ...state,
         selectedNote: action.payload.index,
+      };
+    }
+    case noteActions.FETCH_DATA_LOCAL_STORAGE: {
+      return {
+        ...state,
+        data: action.payload,
+        filteredData: action.payload,
       };
     }
     default: {
