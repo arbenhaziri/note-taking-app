@@ -57,14 +57,15 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "flex-end",
     padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
     ...theme.mixins.toolbar,
   },
   title: {
     cursor: "pointer",
   },
   search: {
-    margin: "10px",
+    background: "white",
+    borderRadius: "5px",
+    marginLeft: "50px",
   },
 }));
 
@@ -111,49 +112,41 @@ function Sidebar(props) {
           >
             Note Taking App
           </Typography>
+          <TextField
+            variant="filled"
+            className={classes.search}
+            label="Search by name..."
+            color="primary"
+            size="small"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+            onChange={(event) => {
+              handleSearch(event);
+            }}
+          />
         </Toolbar>
       </AppBar>
       <Drawer
         variant="permanent"
-        className={classes.drawerOpen}
+        className={clsx(classes.drawer, {
+          [classes.drawerOpen]: open,
+          [classes.drawerClose]: !open,
+        })}
         classes={{
-          paper: clsx({ [classes.drawerOpen]: true }),
+          paper: clsx({
+            [classes.drawerOpen]: open,
+            [classes.drawerClose]: !open,
+          }),
         }}
-        // variant="permanent"
-        // className={clsx(classes.drawer, {
-        //   [classes.drawerOpen]: open,
-        //   [classes.drawerClose]: !open,
-        // })}
-        // classes={{
-        //   paper: clsx({
-        //     [classes.drawerOpen]: open,
-        //     [classes.drawerClose]: !open,
-        //   }),
-        // }}
       >
         <div className={classes.toolbar} />
         <Divider />
         <List>
-          <ListItem>
-            <TextField
-              id="outlined-basic"
-              variant="outlined"
-              className={classes.search}
-              label="Search"
-              color="primary"
-              size="small"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              }}
-              onChange={(event) => {
-                handleSearch(event);
-              }}
-            />
-          </ListItem>
           <ListItem
             button
             selected={-1 === noteReducer.selectedNote}

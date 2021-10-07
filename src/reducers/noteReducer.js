@@ -16,7 +16,7 @@ export default function productReducer(state = initialState, action) {
   switch (action.type) {
     case noteActions.SEARCH_NOTES: {
       let filteredData = state.data.filter((note) =>
-        note.text.toLowerCase().includes(action.payload.keyword.toLowerCase())
+        note.name.toLowerCase().includes(action.payload.keyword.toLowerCase())
       );
       return {
         ...state,

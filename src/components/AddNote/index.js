@@ -11,7 +11,6 @@ function AddNote(props) {
   const noteReducer = useSelector((state) => state.noteReducer);
   const [noteText, setNoteText] = useState("");
   const [noteName, setNoteName] = useState("");
-
   const { id } = useParams();
   const editForm = props.location.pathname.includes("/note/");
 
@@ -67,7 +66,7 @@ function AddNote(props) {
               name="noteName"
               value={noteName}
               label="Name"
-              variant="outlined"
+              variant="filled"
               size="small"
               fullWidth
               style={{ marginBottom: "10px", marginTop: "40px" }}
@@ -93,7 +92,7 @@ function AddNote(props) {
               className="btn btn-secondary m-2"
               onClick={() => {
                 props.history.push("/");
-                dispatch(selectNote());
+                dispatch(selectNote(-1));
               }}
             >
               Cancel

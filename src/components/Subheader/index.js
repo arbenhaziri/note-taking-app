@@ -5,12 +5,12 @@ import { withRouter } from "react-router-dom";
 
 const useStyles = makeStyles(() => ({
   subHeader: {
-    marginTop: "65px",
+    marginTop: "60px",
     borderBottom: "solid 1px #80808026",
     background: "white",
-    // marginBottom: "15px",
   },
   textColor: {
+    paddingTop: "10px",
     color: "grey",
   },
 }));
