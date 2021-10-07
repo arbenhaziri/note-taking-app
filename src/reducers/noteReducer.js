@@ -1,4 +1,4 @@
-import { datas } from "../actions";
+import { noteActions } from "../actions";
 
 const initialState = {
   data: [],
@@ -9,7 +9,7 @@ const initialState = {
 
 export default function productReducer(state = initialState, action) {
   switch (action.type) {
-    case datas.SEARCH_NOTES: {
+    case noteActions.SEARCH_NOTES: {
       let filteredData = state.data.filter((note) =>
         note.text.toLowerCase().includes(action.payload.keyword.toLowerCase())
       );
@@ -19,35 +19,35 @@ export default function productReducer(state = initialState, action) {
         isLoading: false,
       };
     }
-    case datas.ADD_NOTE: {
+    case noteActions.ADD_NOTE: {
       state.data.push(action.payload.note);
       return {
         ...state,
         filteredData: state.data,
       };
     }
-    case datas.EDIT_NOTE: {
+    case noteActions.EDIT_NOTE: {
       const updatedNote = state.data.find(
         (item) => item.id === action.payload.note.id
       );
       updatedNote.text = action.payload.note.text;
+      updatedNote.name = action.payload.note.name;
       return {
         ...state,
         filteredData: state.data,
       };
     }
-    case datas.DELETE_NOTE: {
+    case noteActions.DELETE_NOTE: {
       let filteredData = state.data.filter(
         (note) => note.id !== action.payload.note.id
       );
-      console.log("filteredData",filteredData)
       return {
         ...state,
         data: filteredData,
         filteredData: filteredData,
       };
     }
-    case datas.SELECT_NOTE: {
+    case noteActions.SELECT_NOTE: {
       return {
         ...state,
         selectedNote: action.payload.index,

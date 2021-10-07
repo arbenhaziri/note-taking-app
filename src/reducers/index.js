@@ -1,10 +1,8 @@
 import { combineReducers } from "redux";
-import dashboard from "./dashboard";
-import datas from "./datas";
+import noteReducer from "./noteReducer";
 
 const reducers = {
-  dashboard,
-  datas,
+  noteReducer,
 };
 
 export default combineReducers(reducers);

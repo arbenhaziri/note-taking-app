@@ -2,17 +2,22 @@ import React from "react";
 import { useSelector } from "react-redux";
 import CardView from "../CardView";
 import { withRouter } from "react-router";
+import { Typography } from "@material-ui/core";
 
 function Dashboard(props) {
-  const datasState = useSelector((state) => state.datas);
+  const noteReducer = useSelector((state) => state.noteReducer);
 
   return (
     <div className="container">
-      <div class="row row-cols-3">
-        {datasState.filteredData.map((item, index) => {
-          return <CardView key={index} data={item} index={index} />;
-        })}
-      </div>
+      {noteReducer.data.length > 0 ? (
+        <div className="row row-cols-3">
+          {noteReducer.filteredData.map((item, index) => {
+            return <CardView key={index} data={item} index={index} />;
+          })}
+        </div>
+      ) : (
+        <Typography variant="h6" align="center">There are no notes stored</Typography>
+      )}
     </div>
   );
 }

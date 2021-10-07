@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { datas } from "../../actions";
+import { noteActions } from "../../actions";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -73,11 +73,11 @@ function Sidebar(props) {
   // const theme = useTheme();
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
-  const datasState = useSelector((state) => state.datas);
+  const noteReducer = useSelector((state) => state.noteReducer);
 
   const handleClick = (index, directory) => {
     props.history.push(directory);
-    dispatch(datas.selectNote(index));
+    dispatch(noteActions.selectNote(index));
   };
 
   const handleDrawer = () => {
@@ -85,7 +85,7 @@ function Sidebar(props) {
   };
 
   const handleSearch = (event) => {
-    dispatch(datas.doSearchNotes(event.target.value));
+    dispatch(noteActions.doSearchNotes(event.target.value));
   };
 
   return (
@@ -156,7 +156,7 @@ function Sidebar(props) {
           </ListItem>
           <ListItem
             button
-            selected={-1 === datasState.selectedNote}
+            selected={-1 === noteReducer.selectedNote}
             onClick={() => handleClick(-1, "/")}
           >
             <ListItemIcon>
@@ -166,7 +166,7 @@ function Sidebar(props) {
           </ListItem>
           <ListItem
             button
-            selected={-2 === datasState.selectedNote}
+            selected={-2 === noteReducer.selectedNote}
             onClick={() => handleClick(-2, "/add-note")}
           >
             <ListItemIcon>
@@ -177,12 +177,12 @@ function Sidebar(props) {
         </List>
         <Divider />
         <List>
-          {datasState.filteredData.map((item, index) => {
+          {noteReducer.filteredData.map((item, index) => {
             return (
               <ListItem
                 key={index}
                 button
-                selected={index === datasState.selectedNote}
+                selected={index === noteReducer.selectedNote}
                 onClick={() => {
                   handleClick(index, `/note/${item.id}`);
                 }}

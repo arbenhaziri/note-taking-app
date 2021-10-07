@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
-import { addNote, editNote, selectNote } from "../../actions/datas";
+import { addNote, editNote, selectNote } from "../../actions/noteActions";
 import { v4 as uuidv4 } from "uuid";
 import { TextField, Grid } from "@material-ui/core";
 import DescriptionIcon from "@material-ui/icons/Description";
 
 function AddNote(props) {
   const dispatch = useDispatch();
-  const datasState = useSelector((state) => state.datas);
+  const noteReducer = useSelector((state) => state.noteReducer);
   const [noteText, setNoteText] = useState("");
   const [noteName, setNoteName] = useState("");
 
@@ -17,7 +17,7 @@ function AddNote(props) {
 
   useEffect(() => {
     if (editForm) {
-      const noteToEdit = datasState.data.filter((item) => item.id === id);
+      const noteToEdit = noteReducer.data.filter((item) => item.id === id);
       setNoteText(noteToEdit[0].text);
       setNoteName(noteToEdit[0].name);
     } else {
@@ -49,6 +49,7 @@ function AddNote(props) {
   const onFormSubmit = (event) => {
     event.preventDefault();
     props.location.pathname.includes("/note/") ? handleEdit() : handleSave();
+    props.history.push("/");
   };
 
   return (

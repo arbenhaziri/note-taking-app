@@ -1,12 +1,11 @@
 import React from "react";
 import { Paper, Typography } from "@material-ui/core";
-import { deleteNote } from "../../actions/datas";
+import { deleteNote } from "../../actions/noteActions";
 import { useDispatch } from "react-redux";
 import { withRouter } from "react-router";
 
 function CardView(props) {
   const dispatch = useDispatch();
-  console.log(props);
   return (
     <div className="col-lg-3 cardView">
       <button

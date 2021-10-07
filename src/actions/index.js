@@ -1,4 +1,3 @@
-import * as dashboard from "./dashboard";
-import * as datas from "./datas";
+import * as noteActions from "./noteActions";
 
-export { dashboard, datas };
+export { noteActions };
