@@ -25,6 +25,8 @@ function App() {
     dispatch(fetchDataFromLocalStorage());
   }, [dispatch]);
 
+  console.log("REACT_APP_DEV_API_HOST", process.env.REACT_APP_DEV_API_HOST);
+
   return (
     <div className={classes.root}>
       <BrowserRouter>
